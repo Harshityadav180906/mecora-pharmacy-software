@@ -51,7 +51,8 @@ import {
   Eye,
   EyeOff,
   Server,
-  Globe
+  Globe,
+  Edit
 } from 'lucide-react';
 import { printReceipt } from '@/lib/printReceipt';
 import { predictMedicineDetails, AIMedicineInfo } from '@/lib/medicineAI';
@@ -408,7 +409,39 @@ export default function MecoraMedicalApp() {
     setNewPharmacyEmail('');
   };
 
-  // Add Employee Form Submit
+  // Delete Staff Member
+  const handleDeleteStaff = async (id?: string, email?: string, name?: string) => {
+    if (!confirm(`Are you sure you want to remove employee "${name}" from MongoDB?`)) return;
+    try {
+      const param = id ? `id=${id}` : `email=${encodeURIComponent(email || '')}`;
+      const res = await fetch(`/api/pharmacy/staff?${param}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`🗑️ Employee ${name} removed from system`);
+        fetchPharmacyData(activePharmacyId);
+      } else {
+        showToast(`Error: ${data.message}`);
+      }
+    } catch {
+      showToast('Failed to delete staff member');
+    }
+  };
+
+  // Edit Staff Member Handler
+  const handleStartEditStaff = (st: StaffMember) => {
+    setNewStaff({
+      name: st.name,
+      email: st.email,
+      role: st.role,
+      phone: st.phone || '',
+      password: st.password || '123456',
+    });
+    setEditingStaffId(st._id || st.email);
+  };
+
+  const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
+
+  // Add / Edit Employee Form Submit
   const handleAddStaffSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newStaff.name || !newStaff.email) {
@@ -416,21 +449,28 @@ export default function MecoraMedicalApp() {
       return;
     }
     try {
-      const res = await fetch('/api/pharmacy/staff', {
-        method: 'POST',
+      const url = '/api/pharmacy/staff';
+      const method = editingStaffId ? 'PUT' : 'POST';
+      const bodyPayload = editingStaffId
+        ? { id: editingStaffId, ...newStaff, pharmacyId: activePharmacyId }
+        : { ...newStaff, pharmacyId: activePharmacyId };
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...newStaff, pharmacyId: activePharmacyId }),
+        body: JSON.stringify(bodyPayload),
       });
       const data = await res.json();
       if (data.success) {
-        showToast(`✅ Employee ${newStaff.name} registered in MongoDB!`);
+        showToast(editingStaffId ? `✏️ Employee ${newStaff.name} updated!` : `✅ Employee ${newStaff.name} registered in MongoDB!`);
         fetchPharmacyData(activePharmacyId);
         setNewStaff({ name: '', email: '', role: 'Billing Staff', phone: '', password: '' });
+        setEditingStaffId(null);
       } else {
         showToast(`Error: ${data.message}`);
       }
     } catch (err) {
-      showToast('Failed to add staff');
+      showToast('Failed to save staff details');
     }
   };
 
@@ -2299,13 +2339,27 @@ export default function MecoraMedicalApp() {
                   </select>
                 </div>
 
-                <div className="flex items-end">
+                <div className="flex items-end gap-2">
                   <button
                     type="submit"
-                    className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-xs shadow-md transition-all"
+                    className={`w-full py-2.5 text-white rounded-xl font-black text-xs shadow-md transition-all ${
+                      editingStaffId ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-600 hover:bg-blue-700'
+                    }`}
                   >
-                    + Add Employee
+                    {editingStaffId ? '✏️ Update Employee' : '+ Add Employee'}
                   </button>
+                  {editingStaffId && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingStaffId(null);
+                        setNewStaff({ name: '', email: '', role: 'Billing Staff', phone: '', password: '' });
+                      }}
+                      className="py-2.5 px-3 bg-slate-500/20 text-slate-400 hover:bg-slate-500/30 rounded-xl font-bold text-xs"
+                    >
+                      Cancel
+                    </button>
+                  )}
                 </div>
               </form>
             </div>
@@ -2325,6 +2379,7 @@ export default function MecoraMedicalApp() {
                       <th className="p-3 font-semibold">LOGIN PASSWORD</th>
                       <th className="p-3 font-semibold">ASSIGNED ROLE</th>
                       <th className="p-3 font-semibold">STATUS</th>
+                      <th className="p-3 font-semibold text-right">ACTIONS</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y dark:divide-slate-800">
@@ -2335,9 +2390,10 @@ export default function MecoraMedicalApp() {
                       <td className="p-3 font-mono font-bold text-slate-400">admin123</td>
                       <td className="p-3"><span className="bg-purple-500/20 text-purple-600 font-bold px-2 py-0.5 rounded text-[10px]">Pharmacy Owner</span></td>
                       <td className="p-3"><span className="bg-emerald-500/20 text-emerald-600 font-bold px-2 py-0.5 rounded text-[10px]">Active</span></td>
+                      <td className="p-3 text-right text-slate-400 text-[10px] font-semibold">System Primary</td>
                     </tr>
                     {staffList.map((st) => (
-                      <tr key={st._id || st.employeeCode} className="hover:bg-slate-500/5">
+                      <tr key={st._id || st.employeeCode} className="hover:bg-slate-500/5 transition-colors">
                         <td className="p-3 font-mono font-bold">{st.employeeCode}</td>
                         <td className="p-3 font-bold">{st.name}</td>
                         <td className="p-3 text-slate-400 font-mono">{st.email}</td>
@@ -2346,6 +2402,24 @@ export default function MecoraMedicalApp() {
                           <span className="bg-blue-500/10 text-blue-600 font-bold px-2 py-0.5 rounded text-[10px]">{st.role}</span>
                         </td>
                         <td className="p-3"><span className="bg-emerald-500/20 text-emerald-600 font-bold px-2 py-0.5 rounded text-[10px]">Active</span></td>
+                        <td className="p-3 text-right space-x-1.5">
+                          <button
+                            onClick={() => handleStartEditStaff(st)}
+                            className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded text-[11px] font-bold inline-flex items-center space-x-1"
+                            title="Edit Employee Account"
+                          >
+                            <Edit className="w-3 h-3" />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            onClick={() => handleDeleteStaff(st._id, st.email, st.name)}
+                            className="bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 px-2.5 py-1 rounded text-[11px] font-bold inline-flex items-center space-x-1"
+                            title="Delete Employee Account"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            <span>Delete</span>
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
