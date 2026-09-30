@@ -123,6 +123,7 @@ interface StaffMember {
   _id?: string;
   name: string;
   email: string;
+  password?: string;
   employeeCode: string;
   role: 'Admin' | 'Pharmacist' | 'Cashier' | 'Billing Staff';
   phone?: string;
@@ -2248,13 +2249,13 @@ export default function MecoraMedicalApp() {
                 <UserPlus className="w-6 h-6 text-blue-500" />
               </div>
 
-              <form onSubmit={handleAddStaffSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+              <form onSubmit={handleAddStaffSubmit} className="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
                 <div>
                   <label className="block mb-1 text-slate-400 font-semibold">Staff Name *</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g., Rohit Sharma"
+                    placeholder="e.g., Rahul Sharma"
                     value={newStaff.name}
                     onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
                     className={`w-full p-2.5 rounded-xl border outline-none ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-300'}`}
@@ -2266,10 +2267,22 @@ export default function MecoraMedicalApp() {
                   <input
                     type="email"
                     required
-                    placeholder="rohit@pharmacy.com"
+                    placeholder="rahul@pharmacy.com"
                     value={newStaff.email}
                     onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
                     className={`w-full p-2.5 rounded-xl border outline-none ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-300'}`}
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-slate-400 font-semibold">Password / Security PIN *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g., 123456"
+                    value={newStaff.password || '123456'}
+                    onChange={(e) => setNewStaff({ ...newStaff, password: e.target.value })}
+                    className={`w-full p-2.5 rounded-xl border outline-none font-mono font-bold ${darkMode ? 'bg-slate-800 border-slate-700 text-cyan-400' : 'bg-slate-50 border-slate-300 text-blue-600'}`}
                   />
                 </div>
 
@@ -2308,7 +2321,8 @@ export default function MecoraMedicalApp() {
                     <tr>
                       <th className="p-3 font-semibold">EMPLOYEE CODE</th>
                       <th className="p-3 font-semibold">STAFF NAME</th>
-                      <th className="p-3 font-semibold">EMAIL</th>
+                      <th className="p-3 font-semibold">EMAIL (LOGIN ID)</th>
+                      <th className="p-3 font-semibold">LOGIN PASSWORD</th>
                       <th className="p-3 font-semibold">ASSIGNED ROLE</th>
                       <th className="p-3 font-semibold">STATUS</th>
                     </tr>
@@ -2318,6 +2332,7 @@ export default function MecoraMedicalApp() {
                       <td className="p-3 font-mono font-bold text-blue-600">OWNER-01</td>
                       <td className="p-3 font-black">{currentPharmacy?.name} (Owner)</td>
                       <td className="p-3 text-slate-400">{currentPharmacy?.ownerEmail}</td>
+                      <td className="p-3 font-mono font-bold text-slate-400">admin123</td>
                       <td className="p-3"><span className="bg-purple-500/20 text-purple-600 font-bold px-2 py-0.5 rounded text-[10px]">Pharmacy Owner</span></td>
                       <td className="p-3"><span className="bg-emerald-500/20 text-emerald-600 font-bold px-2 py-0.5 rounded text-[10px]">Active</span></td>
                     </tr>
@@ -2325,7 +2340,8 @@ export default function MecoraMedicalApp() {
                       <tr key={st._id || st.employeeCode} className="hover:bg-slate-500/5">
                         <td className="p-3 font-mono font-bold">{st.employeeCode}</td>
                         <td className="p-3 font-bold">{st.name}</td>
-                        <td className="p-3 text-slate-400">{st.email}</td>
+                        <td className="p-3 text-slate-400 font-mono">{st.email}</td>
+                        <td className="p-3 font-mono font-bold text-cyan-600 dark:text-cyan-400">{st.password || '123456'}</td>
                         <td className="p-3">
                           <span className="bg-blue-500/10 text-blue-600 font-bold px-2 py-0.5 rounded text-[10px]">{st.role}</span>
                         </td>
