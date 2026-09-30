@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
-import { SoftwareUser, Pharmacy, PharmacyAudit } from '@/models/PharmacyModels';
+import { SoftwareUser, PharmacyStaff, Pharmacy, PharmacyAudit } from '@/models/PharmacyModels';
 
 // Seed default users if database is fresh
 const defaultUsers = [
@@ -71,10 +71,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, message: 'Email and password are required' }, { status: 400 });
     }
 
-    // Lookup user in MongoDB Compass
-    let user = await SoftwareUser.findOne({ email: email.toLowerCase().trim() });
+    const cleanEmail = email.toLowerCase().trim();
 
-    // If not found in SoftwareUser, also check if added under PharmacyStaff
+    // 1. Lookup user in SoftwareUser collection
+    let user = await SoftwareUser.findOne({ email: cleanEmail });
+
+    // 2. If not found in SoftwareUser, check PharmacyStaff collection
+    if (!user) {
+      const staffMember = await PharmacyStaff.findOne({ email: cleanEmail });
+      if (staffMember) {
+        // Auto-create/sync SoftwareUser document for this staff member
+        user = await SoftwareUser.create({
+          name: staffMember.name,
+          email: cleanEmail,
+          password: staffMember.password || '123456',
+          role: 'EMPLOYEE',
+          pharmacyId: staffMember.pharmacyId || 'xyz',
+          pharmacyName: staffMember.pharmacyId === 'zyx' ? 'ZYX Medicos & Wellness' : 'XYZ Pharmacy & Healthcare',
+          employeeCode: staffMember.employeeCode || 'EMP-101',
+          phone: staffMember.phone || '',
+          active: true,
+        });
+      }
+    }
+
     if (!user) {
       return NextResponse.json({ success: false, message: 'Invalid credentials. User not found in database.' }, { status: 401 });
     }
