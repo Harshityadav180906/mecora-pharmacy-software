@@ -179,17 +179,287 @@ export function predictMedicineDetails(medicineName: string): AIMedicineInfo {
     };
   }
 
-  // Default fallback for any custom medicine added
+  if (nameLower.includes('vicks') || nameLower.includes('inhaler') || nameLower.includes('nasal')) {
+    return {
+      name: medicineName,
+      salt: 'Menthol, Camphor, Eucalyptus Oil',
+      category: 'Nasal Decongestant / Topical Inhalant',
+      primaryUses: ['Nasal congestion', 'blocked nose', 'cold/flu', 'sinusitis'],
+      causesAndConditions: ['Mucosal swelling from viral upper respiratory infection'],
+      dosageAdvice: 'Inhale through each nostril 2-3 times, repeat every 2 hours as needed',
+      precautions: ['External use only', 'do not ingest', 'not for children under 6'],
+      sideEffects: ['Mild nasal irritation', 'sneezing'],
+      aiClinicalTip: 'Temporary relief only - for persistent congestion recommend oral decongestant',
+      substitutes: ['Otrivin Nasal Spray', 'Nasivion', 'Sinarest Nasal Drops'],
+    };
+  }
+
+  if (nameLower.includes('cetiri') || nameLower.includes('cetzine') || nameLower.includes('zyrtec') || nameLower.includes('allerg')) {
+    return {
+      name: medicineName,
+      salt: 'Cetirizine Hydrochloride (10mg)',
+      category: 'Second-Generation Antihistamine',
+      primaryUses: ['Allergic rhinitis', 'hay fever', 'urticaria/hives', 'itchy watery eyes'],
+      causesAndConditions: ['Histamine H1 receptor mediated allergic response'],
+      dosageAdvice: '1 tablet once daily, preferably at night',
+      precautions: ['May cause drowsiness', 'avoid alcohol'],
+      sideEffects: ['Drowsiness', 'dry mouth', 'fatigue'],
+      aiClinicalTip: 'Less sedating than first-gen antihistamines but still advise caution with driving',
+      substitutes: ['Alerid 10', 'Okacet', 'Levocet 5mg', 'Fexofenadine 120mg'],
+    };
+  }
+
+  if (nameLower.includes('omeprazole') || nameLower.includes('omez')) {
+    return {
+      name: medicineName,
+      salt: 'Omeprazole (20mg)',
+      category: 'Proton Pump Inhibitor (PPI)',
+      primaryUses: ['Acid reflux', 'GERD', 'peptic ulcers', 'H. pylori eradication'],
+      causesAndConditions: ['Excess gastric acid secretion'],
+      dosageAdvice: '1 capsule daily before breakfast, swallow whole',
+      precautions: ['Long-term use may affect calcium/magnesium absorption'],
+      sideEffects: ['Headache', 'nausea', 'flatulence'],
+      aiClinicalTip: 'For H. pylori, combine with Amoxicillin + Clarithromycin (triple therapy)',
+      substitutes: ['Omez 20', 'Ocid 20', 'Pantoprazole 40mg', 'Esomeprazole 40mg'],
+    };
+  }
+
+  if (nameLower.includes('diclofenac') || nameLower.includes('voveran') || nameLower.includes('voltaren')) {
+    return {
+      name: medicineName,
+      salt: 'Diclofenac Sodium (50mg)',
+      category: 'NSAID / Anti-inflammatory Analgesic',
+      primaryUses: ['Severe joint pain', 'back pain', 'post-surgical pain', 'sports injuries'],
+      causesAndConditions: ['COX-2 mediated inflammation and prostaglandin synthesis'],
+      dosageAdvice: '1 tablet 2-3 times daily after food',
+      precautions: ['Contraindicated in heart disease', 'avoid with aspirin'],
+      sideEffects: ['Stomach pain', 'nausea', 'elevated liver enzymes'],
+      aiClinicalTip: 'Always co-prescribe a PPI (Pantoprazole) to prevent gastric erosion',
+      substitutes: ['Voveran SR 100', 'Reactin', 'Diclomax', 'Aceclofenac 100mg'],
+    };
+  }
+
+  if (nameLower.includes('ors') || nameLower.includes('electral') || nameLower.includes('electrolyte')) {
+    return {
+      name: medicineName,
+      salt: 'Sodium Chloride, Potassium Chloride, Sodium Citrate, Dextrose',
+      category: 'Oral Rehydration Salt / Electrolyte Replacement',
+      primaryUses: ['Dehydration from diarrhea', 'vomiting', 'heat stroke', 'post-exercise'],
+      causesAndConditions: ['Electrolyte imbalance and fluid loss'],
+      dosageAdvice: 'Dissolve 1 sachet in 1 liter of clean drinking water. Sip frequently.',
+      precautions: ['Prepare fresh solution every 24 hours', 'discard unused portion'],
+      sideEffects: ['None when used as directed'],
+      aiClinicalTip: 'WHO-recommended first-line treatment for acute watery diarrhea dehydration',
+      substitutes: ['Electrobion', 'Enerzal', 'Pedialyte', 'Glucon-D ORS'],
+    };
+  }
+
+  if (nameLower.includes('betadine') || nameLower.includes('povidone') || nameLower.includes('iodine')) {
+    return {
+      name: medicineName,
+      salt: 'Povidone-Iodine (5% / 10%)',
+      category: 'Topical Antiseptic / Germicide',
+      primaryUses: ['Wound disinfection', 'surgical site preparation', 'skin infections', 'gargle for sore throat'],
+      causesAndConditions: ['Prevention of bacterial, viral, and fungal wound contamination'],
+      dosageAdvice: 'Apply undiluted to wound with cotton; for gargle dilute 1:10 with water',
+      precautions: ['Avoid in iodine/shellfish allergy', 'not for deep puncture wounds'],
+      sideEffects: ['Local staining', 'mild skin irritation'],
+      aiClinicalTip: 'Use gargle formulation (not surgical scrub) for pharyngitis',
+      substitutes: ['Wokadine', 'Cipladine', 'Hydrogen Peroxide 3%', 'Savlon'],
+    };
+  }
+
+  if (nameLower.includes('cough') || nameLower.includes('benadryl') || nameLower.includes('corex') || nameLower.includes('syrup')) {
+    return {
+      name: medicineName,
+      salt: 'Diphenhydramine + Ammonium Chloride + Sodium Citrate',
+      category: 'Antitussive + Expectorant Cough Suppressant',
+      primaryUses: ['Dry cough', 'allergic cough', 'productive cough', 'throat irritation'],
+      causesAndConditions: ['Cough reflex triggered by pharyngeal/bronchial irritation'],
+      dosageAdvice: '10ml (2 teaspoons) 3-4 times daily after meals',
+      precautions: ['Causes significant drowsiness', 'avoid driving', 'do not combine with alcohol'],
+      sideEffects: ['Drowsiness', 'dry mouth', 'thickened bronchial secretions'],
+      aiClinicalTip: 'For dry cough use suppressant (Dextromethorphan), for wet cough use expectorant (Guaifenesin/Ambroxol)',
+      substitutes: ['Grilinctus', 'Ascoril-D', 'Honitus', 'Zedex'],
+    };
+  }
+
+  if (nameLower.includes('vitamin') || nameLower.includes('supradyn') || nameLower.includes('becosules') || nameLower.includes('multivit') || nameLower.includes('b-complex')) {
+    return {
+      name: medicineName,
+      salt: 'B-Complex (B1, B2, B3, B5, B6, B12) + Vitamin C + Folic Acid + Zinc',
+      category: 'Multivitamin & Mineral Supplement',
+      primaryUses: ['Nutritional deficiency', 'fatigue', 'post-illness recovery', 'immune support'],
+      causesAndConditions: ['Dietary insufficiency', 'malabsorption', 'convalescence'],
+      dosageAdvice: '1 capsule/tablet daily after lunch or dinner',
+      precautions: ['Not a substitute for balanced diet', 'store away from moisture'],
+      sideEffects: ['Bright yellow urine (harmless B2 excretion)', 'mild nausea if taken empty stomach'],
+      aiClinicalTip: 'Recommend Vitamin D3 supplement alongside in Indian population (widespread deficiency)',
+      substitutes: ['Zincovit', 'Revital', 'Shelcal 500', 'A to Z NS'],
+    };
+  }
+
+  if (nameLower.includes('aspirin') || nameLower.includes('disprin') || nameLower.includes('ecosprin')) {
+    return {
+      name: medicineName,
+      salt: 'Acetylsalicylic Acid (75mg / 150mg / 325mg)',
+      category: 'Antiplatelet / NSAID / Antipyretic',
+      primaryUses: ['Blood thinning for heart attack prevention', 'mild pain', 'fever', 'anti-inflammatory'],
+      causesAndConditions: ['Platelet aggregation prevention in cardiovascular disease'],
+      dosageAdvice: 'Low-dose (75mg) daily for cardiac; 325-650mg for pain/fever',
+      precautions: ['NEVER give to children under 16 (Reye\'s syndrome risk)', 'avoid in dengue'],
+      sideEffects: ['Stomach bleeding', 'gastric irritation', 'tinnitus at high doses'],
+      aiClinicalTip: 'Low-dose aspirin (75mg) is a lifesaving anti-platelet in post-MI patients',
+      substitutes: ['Ecosprin 75', 'CV Aspirin', 'Clopidogrel 75mg'],
+    };
+  }
+
+  if (nameLower.includes('deriphyllin') || nameLower.includes('theophyllin') || nameLower.includes('aminophyllin')) {
+    return {
+      name: medicineName,
+      salt: 'Etofylline + Theophylline',
+      category: 'Bronchodilator / Xanthine Derivative',
+      primaryUses: ['Asthma', 'COPD', 'chronic bronchitis', 'wheezing'],
+      causesAndConditions: ['Bronchospasm and airway obstruction'],
+      dosageAdvice: '1 tablet 2-3 times daily after food',
+      precautions: ['Narrow therapeutic window', 'monitor blood levels in elderly'],
+      sideEffects: ['Palpitations', 'insomnia', 'tremors', 'GI upset'],
+      aiClinicalTip: 'Avoid excessive caffeine intake during treatment as both are xanthines',
+      substitutes: ['Theo-Asthalin', 'Ventorlin', 'Duolin inhaler'],
+    };
+  }
+
+  if (nameLower.includes('candid') || nameLower.includes('clotrimazole') || nameLower.includes('cream') || nameLower.includes('ointment') || nameLower.includes('fungal')) {
+    return {
+      name: medicineName,
+      salt: 'Clotrimazole (1% w/w)',
+      category: 'Topical Antifungal',
+      primaryUses: ['Ringworm', 'athlete\'s foot', 'jock itch', 'candidal skin infections', 'diaper rash'],
+      causesAndConditions: ['Dermatophyte and Candida fungal skin colonization'],
+      dosageAdvice: 'Apply thin layer to affected area 2-3 times daily for 2-4 weeks',
+      precautions: ['Complete full course even if symptoms resolve early to prevent recurrence'],
+      sideEffects: ['Mild local burning or itching on first application'],
+      aiClinicalTip: 'Keep the affected area clean and dry. Use antifungal powder for moisture-prone areas.',
+      substitutes: ['Canesten', 'Ring Guard', 'Luliconazole 1%', 'Terbinafine cream'],
+    };
+  }
+
+  if (nameLower.includes('eye drop') || nameLower.includes('moxiflox') || nameLower.includes('milflox') || nameLower.includes('oflox eye')) {
+    return {
+      name: medicineName,
+      salt: 'Moxifloxacin Ophthalmic (0.5%)',
+      category: 'Ophthalmic Fluoroquinolone Antibiotic',
+      primaryUses: ['Bacterial conjunctivitis', 'eye infection', 'post-cataract surgery prophylaxis'],
+      causesAndConditions: ['Bacterial keratitis and conjunctival infection'],
+      dosageAdvice: 'Instill 1-2 drops in affected eye 3 times daily for 5-7 days',
+      precautions: ['Avoid touching dropper tip to eye', 'discard bottle 28 days after opening'],
+      sideEffects: ['Transient stinging', 'blurred vision for 1-2 minutes'],
+      aiClinicalTip: 'If both eye drops and ointment are prescribed, use drops first, ointment 5 min later',
+      substitutes: ['Vigamox', 'Moxicip', 'Ofloxacin eye drops', 'Tobramycin eye drops'],
+    };
+  }
+
+  if (nameLower.includes('ranitidine') || nameLower.includes('rantac') || nameLower.includes('aciloc') || nameLower.includes('zinetac')) {
+    return {
+      name: medicineName,
+      salt: 'Ranitidine Hydrochloride (150mg)',
+      category: 'H2 Receptor Blocker / Antacid',
+      primaryUses: ['Acidity', 'heartburn', 'gastric ulcer', 'duodenal ulcer'],
+      causesAndConditions: ['Excess acid secretion via histamine H2 pathway'],
+      dosageAdvice: '1 tablet twice daily (morning and night) before meals',
+      precautions: ['Avoid long-term unsupervised use'],
+      sideEffects: ['Headache', 'constipation', 'mild dizziness'],
+      aiClinicalTip: 'PPIs (like Pantoprazole) are more potent; use Ranitidine for milder cases or as step-down',
+      substitutes: ['Rantac 150', 'Aciloc 150', 'Famotidine 20mg', 'Zinetac 150'],
+    };
+  }
+
+  if (nameLower.includes('ondansetron') || nameLower.includes('emeset') || nameLower.includes('vomikind') || nameLower.includes('vomit') || nameLower.includes('nausea')) {
+    return {
+      name: medicineName,
+      salt: 'Ondansetron Hydrochloride (4mg)',
+      category: '5-HT3 Receptor Antagonist / Antiemetic',
+      primaryUses: ['Nausea', 'vomiting', 'motion sickness', 'chemotherapy-induced vomiting'],
+      causesAndConditions: ['Serotonin-mediated vomiting reflex'],
+      dosageAdvice: '1 tablet 30 minutes before meals or as needed; mouth-dissolving tablet placed on tongue',
+      precautions: ['May cause constipation', 'use with caution in liver impairment'],
+      sideEffects: ['Headache', 'constipation', 'fatigue'],
+      aiClinicalTip: 'Mouth-dissolving tablets (MD/ODT) are ideal for patients who cannot swallow due to active vomiting',
+      substitutes: ['Ondem MD', 'Vomistop', 'Domperidone 10mg', 'Emeset 4'],
+    };
+  }
+
+  if (nameLower.includes('loperamide') || nameLower.includes('imodium') || nameLower.includes('eldoper') || nameLower.includes('diarrhea') || nameLower.includes('loose motion')) {
+    return {
+      name: medicineName,
+      salt: 'Loperamide Hydrochloride (2mg)',
+      category: 'Anti-Diarrheal / Opioid Receptor Agonist (Peripheral)',
+      primaryUses: ['Acute diarrhea', 'traveler\'s diarrhea', 'IBS-related diarrhea'],
+      causesAndConditions: ['Increased intestinal motility and fluid secretion'],
+      dosageAdvice: '2 capsules initially, then 1 capsule after each loose stool (max 8 per day)',
+      precautions: ['Not for bloody/dysenteric diarrhea', 'do not use in children under 6'],
+      sideEffects: ['Constipation', 'bloating', 'drowsiness'],
+      aiClinicalTip: 'Always combine with ORS for rehydration. Do NOT use if fever with bloody stools (suggests bacterial dysentery).',
+      substitutes: ['Imodium', 'Lopamide', 'Loperamide Plus'],
+    };
+  }
+
+  // Smart fallback - try to extract useful info from the product name
+  const formTypes: Record<string, string> = {
+    'tablet': 'Oral Tablet', 'tab': 'Oral Tablet', 'cap': 'Oral Capsule', 'capsule': 'Oral Capsule',
+    'syrup': 'Oral Syrup/Liquid', 'suspension': 'Oral Suspension', 'drops': 'Drops',
+    'gel': 'Topical Gel', 'spray': 'Topical Spray', 'lotion': 'Topical Lotion',
+    'injection': 'Injectable', 'inj': 'Injectable', 'powder': 'Powder/Sachet',
+    'patch': 'Transdermal Patch', 'suppository': 'Rectal/Vaginal Suppository',
+  };
+
+  const therapeuticHints: Record<string, { category: string; uses: string[]; tip: string }> = {
+    'pain': { category: 'Analgesic / Pain Reliever', uses: ['Pain management', 'Inflammation relief'], tip: 'Monitor for gastric side effects with prolonged use.' },
+    'cold': { category: 'Cold & Flu Remedy', uses: ['Common cold symptoms', 'Nasal congestion', 'Runny nose'], tip: 'Symptomatic relief only; encourage fluids and rest.' },
+    'fever': { category: 'Antipyretic', uses: ['Fever reduction', 'Body ache relief'], tip: 'Ensure adequate hydration during fever episodes.' },
+    'cough': { category: 'Antitussive / Cough Remedy', uses: ['Cough suppression', 'Throat soothing'], tip: 'Identify if dry or productive cough for appropriate treatment.' },
+    'stomach': { category: 'Gastrointestinal Medicine', uses: ['Stomach discomfort', 'Digestive support'], tip: 'Take with or after food to reduce GI irritation.' },
+    'heart': { category: 'Cardiovascular Medicine', uses: ['Heart health support', 'Blood pressure management'], tip: 'Regular monitoring of vitals recommended.' },
+    'blood': { category: 'Hematological Agent', uses: ['Blood-related condition management'], tip: 'Periodic blood tests recommended during treatment.' },
+    'skin': { category: 'Dermatological Preparation', uses: ['Skin condition treatment', 'Topical application'], tip: 'Keep affected area clean and dry before application.' },
+    'eye': { category: 'Ophthalmic Preparation', uses: ['Eye care & treatment'], tip: 'Avoid touching dropper tip; discard 28 days after opening.' },
+    'ear': { category: 'Otic Preparation', uses: ['Ear infection/condition treatment'], tip: 'Warm drops to body temperature before instilling.' },
+    'tooth': { category: 'Dental/Oral Care', uses: ['Dental pain relief', 'Oral hygiene'], tip: 'Recommend dental consultation for persistent issues.' },
+    'throat': { category: 'Throat Care', uses: ['Sore throat relief', 'Pharyngeal soothing'], tip: 'Gargle with warm salt water as adjunct therapy.' },
+    'vitamin': { category: 'Nutritional Supplement', uses: ['Vitamin supplementation', 'Nutritional support'], tip: 'Best absorbed when taken with meals.' },
+    'protein': { category: 'Protein Supplement', uses: ['Protein supplementation', 'Muscle recovery'], tip: 'Combine with balanced diet for optimal results.' },
+    'calcium': { category: 'Calcium Supplement', uses: ['Calcium supplementation', 'Bone health'], tip: 'Take with Vitamin D3 for better absorption.' },
+    'iron': { category: 'Iron Supplement', uses: ['Iron deficiency anemia', 'Hemoglobin boost'], tip: 'Take with Vitamin C (orange juice) for better absorption. May cause dark stools.' },
+    'zinc': { category: 'Zinc Supplement', uses: ['Zinc supplementation', 'Immune support'], tip: 'Avoid taking with dairy or calcium simultaneously.' },
+  };
+
+  let detectedForm = 'Pharmaceutical Preparation';
+  for (const [key, form] of Object.entries(formTypes)) {
+    if (nameLower.includes(key)) { detectedForm = form; break; }
+  }
+
+  let detectedCategory = 'Therapeutic Medicine';
+  let detectedUses = ['As prescribed by physician', 'Symptomatic treatment'];
+  let detectedTip = 'Verify batch number and expiry before dispensing. Consult pharmacist for salt-equivalent alternatives.';
+  for (const [key, hint] of Object.entries(therapeuticHints)) {
+    if (nameLower.includes(key)) {
+      detectedCategory = hint.category;
+      detectedUses = hint.uses;
+      detectedTip = hint.tip;
+      break;
+    }
+  }
+
   return {
     name: medicineName,
-    salt: 'Active Pharmaceutical Formulation',
-    category: 'Therapeutic Prescription Medicine',
-    primaryUses: ['Symptomatic Relief & Treatment', 'Targeted Pharmaceutical Care as per Prescription'],
-    causesAndConditions: ['Pathogen suppression and metabolic regulation'],
+    salt: `${detectedForm} — Refer packaging for exact salt composition`,
+    category: detectedCategory,
+    primaryUses: detectedUses,
+    causesAndConditions: [`Indicated for management of conditions related to ${detectedCategory.toLowerCase()}`],
     dosageAdvice: 'Administer strictly as instructed on prescription by a registered medical practitioner.',
     precautions: ['Check expiry date before dispensing', 'Store in a cool dry place below 25°C away from direct sunlight', 'Keep out of reach of children'],
     sideEffects: ['Consult a pharmacist or physician if any unexpected symptoms develop'],
-    aiClinicalTip: 'Verify batch number, pack intactness, and patient prescription before dispensing at billing counter.',
+    aiClinicalTip: detectedTip,
     substitutes: ['Consult registered pharmacist for salt-equivalent alternatives in inventory.'],
   };
 }

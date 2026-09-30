@@ -685,11 +685,9 @@ export default function MecoraMedicalApp() {
         {/* Top Navbar */}
         <header className="p-4 lg:px-8 flex justify-between items-center max-w-7xl mx-auto w-full">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
-              <Activity className="w-6 h-6" />
-            </div>
+            <img src="/logo.png" alt="Mecora Medical Logo" className="w-11 h-11 rounded-xl object-contain shadow-md hover:scale-105 transition-transform" />
             <div>
-              <h1 className="text-lg font-black bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+              <h1 className="text-lg font-black bg-gradient-to-r from-blue-600 via-cyan-500 to-rose-500 bg-clip-text text-transparent">
                 Mecora Medical
               </h1>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
@@ -718,11 +716,13 @@ export default function MecoraMedicalApp() {
             darkMode ? 'bg-slate-900/95 border-slate-800' : 'bg-white border-slate-200 shadow-blue-500/5'
           }`}>
             
-            {/* Header */}
+            {/* Header with Enhanced Logo */}
             <div className="text-center mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 text-white font-black flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/30">
-                <Lock className="w-7 h-7" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Mecora Official Logo" 
+                className="w-20 h-20 rounded-2xl object-contain mx-auto mb-3 shadow-2xl ring-2 ring-rose-500/30 hover:scale-105 transition-transform duration-300" 
+              />
               <h2 className="text-2xl font-black tracking-tight">Secure Portal Access</h2>
               <p className="text-slate-400 text-xs mt-1">Authenticate with your registered credentials in MongoDB</p>
             </div>
@@ -916,13 +916,11 @@ export default function MecoraMedicalApp() {
         <div className="px-4 lg:px-6 h-16 flex items-center justify-between">
           
           {/* Brand Logo & Current Role */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
-              <Activity className="w-6 h-6" />
-            </div>
-            <div>
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <img src="/logo.png" alt="Mecora Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl object-contain shadow-md hover:scale-105 transition-transform" />
+            <div className="hidden sm:block">
               <div className="flex items-center space-x-1.5">
-                <h1 className="text-lg font-black bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent leading-none">
+                <h1 className="text-lg font-black bg-gradient-to-r from-blue-600 via-cyan-500 to-rose-500 bg-clip-text text-transparent leading-none">
                   Mecora Medical
                 </h1>
                 <span className="bg-blue-500/10 text-blue-600 dark:text-cyan-400 text-[10px] font-black px-1.5 py-0.5 rounded border border-blue-500/20">
@@ -933,6 +931,10 @@ export default function MecoraMedicalApp() {
                 {currentPharmacy?.name || 'Central Pharmacy Network'}
               </span>
             </div>
+            {/* Mobile role badge only */}
+            <span className="sm:hidden bg-blue-500/10 text-blue-600 dark:text-cyan-400 text-[9px] font-black px-1.5 py-0.5 rounded border border-blue-500/20">
+              {isSuperAdmin ? '👑 Admin' : isOwner ? '🏥 Owner' : '👤 Staff'}
+            </span>
           </div>
 
           {/* Center Branch Selector (Available for Super Admin & Owner) */}
@@ -954,14 +956,14 @@ export default function MecoraMedicalApp() {
           )}
 
           {/* Right Header Actions */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-1.5 sm:space-x-3">
             {/* Quick POS Button */}
             <button
               onClick={() => setActiveTab('pos')}
-              className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-md transition-all active:scale-95"
+              className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-md transition-all active:scale-95"
             >
               <ShoppingCart className="w-4 h-4" />
-              <span>New Bill (POS)</span>
+              <span className="hidden sm:inline">New Bill (POS)</span>
             </button>
 
             {/* Dark / Light Mode Toggle */}
@@ -998,7 +1000,7 @@ export default function MecoraMedicalApp() {
         </div>
 
         {/* NAVIGATION TILES */}
-        <div className={`px-4 lg:px-6 flex items-center space-x-1 overflow-x-auto no-scrollbar border-t text-xs font-semibold py-1.5 ${
+        <div className={`px-2 sm:px-4 lg:px-6 flex items-center space-x-1 overflow-x-auto no-scrollbar snap-x snap-mandatory border-t text-[11px] sm:text-xs font-semibold py-1.5 ${
           darkMode ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'
         }`}>
           {/* Super Admin Dedicated Master Tab */}
@@ -1873,11 +1875,12 @@ export default function MecoraMedicalApp() {
 
             {/* Inventory Table */}
             <div className={`rounded-3xl border overflow-hidden ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
-              <div className="overflow-x-auto">
+              {/* Desktop Table View */}
+              <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead className={`border-b ${darkMode ? 'bg-slate-800/60 border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
                     <tr>
-                      <th className="p-3 font-semibold">MEDICINE & SALT</th>
+                      <th className="p-3 font-semibold min-w-[220px]">MEDICINE & SALT</th>
                       <th className="p-3 font-semibold">AI CLINICAL CAUSE</th>
                       <th className="p-3 font-semibold">PACK</th>
                       <th className="p-3 font-semibold">BATCH NO.</th>
@@ -1891,14 +1894,14 @@ export default function MecoraMedicalApp() {
                     {filteredInventory.map((p) => (
                       <tr key={p._id || p.batch} className="hover:bg-slate-500/5 transition-colors">
                         <td
-                          className="p-3 font-bold text-slate-900 dark:text-slate-100 cursor-pointer group"
+                          className="p-3 font-bold text-slate-900 dark:text-slate-100 cursor-pointer group min-w-[220px]"
                           onClick={() => handleOpenAIMedicine(p.name)}
                         >
-                          <span className="group-hover:text-blue-500 transition-colors flex items-center space-x-1">
-                            <span>{p.name}</span>
-                            <Brain className="w-3 h-3 text-cyan-500 opacity-60 group-hover:opacity-100" />
+                          <span className="group-hover:text-blue-500 transition-colors flex items-center space-x-1.5">
+                            <span className="whitespace-normal break-words leading-snug">{p.name}</span>
+                            <Brain className="w-3 h-3 text-cyan-500 opacity-60 group-hover:opacity-100 shrink-0" />
                           </span>
-                          <span className="block text-[10px] text-slate-400 font-mono">{p.barcode}</span>
+                          <span className="block text-[10px] text-slate-400 font-mono mt-0.5">{p.barcode}</span>
                         </td>
                         <td className="p-3">
                           <button
@@ -1951,6 +1954,68 @@ export default function MecoraMedicalApp() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="lg:hidden divide-y dark:divide-slate-800">
+                {filteredInventory.map((p) => (
+                  <div key={p._id || p.batch} className={`p-4 space-y-3 ${darkMode ? 'hover:bg-slate-800/50' : 'hover:bg-slate-50'} transition-colors`}>
+                    {/* Medicine Name & AI Button Row */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0" onClick={() => handleOpenAIMedicine(p.name)}>
+                        <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 cursor-pointer hover:text-blue-500 transition-colors leading-snug break-words">
+                          {p.name}
+                          <Brain className="w-3 h-3 text-cyan-500 inline-block ml-1.5 opacity-70" />
+                        </h4>
+                        <span className="text-[10px] text-slate-400 font-mono block mt-0.5">{p.barcode}</span>
+                      </div>
+                      <button
+                        onClick={() => handleOpenAIMedicine(p.name)}
+                        className="text-[10px] font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 px-2 py-1 rounded border border-purple-500/20 flex items-center space-x-1 shrink-0"
+                      >
+                        <Stethoscope className="w-3 h-3" />
+                        <span>AI Info</span>
+                      </button>
+                    </div>
+
+                    {/* Info Grid */}
+                    <div className="grid grid-cols-3 gap-2 text-[11px]">
+                      <div>
+                        <span className="text-slate-400 block">Pack</span>
+                        <span className="font-semibold">{p.pack}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block">Batch</span>
+                        <span className="font-mono font-semibold">{p.batch}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block">Stock</span>
+                        <span className={`font-black ${p.stockQuantity <= p.minAlertQuantity ? 'text-amber-500' : ''}`}>{p.stockQuantity}</span>
+                      </div>
+                    </div>
+
+                    {/* Price, Status & Actions Row */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-black text-blue-600 dark:text-cyan-400 text-sm">₹{p.price}.00</span>
+                        {p.stockQuantity <= 0 ? (
+                          <span className="bg-red-500/20 text-red-500 px-2 py-0.5 rounded text-[10px] font-bold">Out</span>
+                        ) : p.stockQuantity <= p.minAlertQuantity ? (
+                          <span className="bg-amber-500/20 text-amber-500 px-2 py-0.5 rounded text-[10px] font-bold">Low</span>
+                        ) : (
+                          <span className="bg-green-500/20 text-green-500 px-2 py-0.5 rounded text-[10px] font-bold">In Stock</span>
+                        )}
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <button onClick={() => handleRestock(p, 10)} className="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 px-2.5 py-1 rounded text-[11px] font-bold">+10</button>
+                        <button onClick={() => handleRestock(p, 50)} className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded text-[11px] font-bold">+50</button>
+                        <button onClick={() => p._id && handleDeleteProduct(p._id, p.name)} className="text-red-500 hover:text-red-700 p-1" title="Delete">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
